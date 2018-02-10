@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<link rel="stylesheet" type="text/css" href="main.css">
+	<link rel="stylesheet" type="text/css" href="../static/main.css">
 </head>
 <body>
     <div class="container">
@@ -40,8 +40,10 @@
 				    contentType: "application/json",
 				    data: JSON.stringify({name: name, date: date})
 				    })
-                    .done(function(data) {
-                        $('#temp').html(AntiXSS.sanitizeInput(data.temperature));
+                    .done(function(json) {
+                        data = JSON.parse(json); 
+                        $('#temp').html(AntiXSS.sanitizeInput(data.currently.temperature));
+                        console.log(data['currently']);
                         $('#locationInput').hide();
                         $('#dateInput').hide();
                         $('#dateLabel').hide();
@@ -55,8 +57,10 @@
 				    contentType: "application/json",
 				    data: JSON.stringify({name: name})
 				    })
-                    .done(function(data) {
-                        $('#temp').html(AntiXSS.sanitizeInput(data.temperature));
+                    .done(function(json) {
+                        data = JSON.parse(json); 
+                        $('#temp').html(AntiXSS.sanitizeInput(data.currently.temperature));
+                        console.log(data['currently']);
                         $('#locationInput').hide();
                         $('#dateInput').hide();
                         $('#dateLabel').hide();
