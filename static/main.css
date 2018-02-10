@@ -10,4 +10,14 @@
 	top: 10px;
 	left: 40px;
 	text-shadow: 0 0 10px #333333;
+	pointer-events: none;
+}
+
+#humidity {
+	font-size: 2em;
+	position: absolute;
+	top: 70px;
+	left: 40px;
+	text-shadow: 0 0 10px #333333;
+	pointer-events: none;
 }
