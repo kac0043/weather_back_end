@@ -6,7 +6,7 @@ from flask import Flask, jsonify
 
 app = Flask(__name__)
 
-@app.route('/<address>')
+@app.route('/?location=<address>&submit=submit')
 def getCurrentData(address):
     location = queryGoogleGeocode(address)
     if (location.startswith('error')):
