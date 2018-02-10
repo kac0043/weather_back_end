@@ -41,7 +41,7 @@
 				    data: JSON.stringify({name: name, date: date})
 				    })
                     .done(function(data) {
-                        $('#response').html(AntiXSS.sanitizeInput(data));
+                        $('#temp').html(AntiXSS.sanitizeInput(data.temperature));
                         $('#locationInput').hide();
                         $('#dateInput').hide();
                         $('#dateLabel').hide();
@@ -56,7 +56,7 @@
 				    data: JSON.stringify({name: name})
 				    })
                     .done(function(data) {
-                        $('#response').html(AntiXSS.sanitizeInput(data));
+                        $('#temp').html(AntiXSS.sanitizeInput(data.temperature));
                         $('#locationInput').hide();
                         $('#dateInput').hide();
                         $('#dateLabel').hide();
