@@ -2,17 +2,36 @@ from urllib2 import urlopen, URLError
 import os
 import time
 import json
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
+from cloudant import Cloudant
+import atexit
+import cf_deployment_tracker
+
+# Emit Bluemix deployment event
+cf_deployment_tracker.track()
 
 app = Flask(__name__)
 
+# On Bluemix, get the port number from the environment variable PORT
+# When running this app on the local machine, default the port to 8000
+port = int(os.getenv('PORT', 8000))
+
 @app.route('/')
+def home():
+    return render_template('index.html')
+
+@app.route('/api', methods=['GET', 'POST'])
 def getCurrentData():
-    location = queryGoogleGeocode(request.args.get('location'))
-    if (location.startswith('error')):
-        return location
-    date = str(request.args.get('date'))
-    if (date):
+    if (request.json is None):
+        return 'error: No Address Given'
+        
+    if ('name' in request.json):
+        location = queryGoogleGeocode(request.json['name'])
+        if (location.startswith('error')):
+            return location
+    else:
+        return 'error: No Address Given'
+    if ('date' in request.json):
         hour = time.gmtime().tm_hour
         minu = time.gmtime().tm_min
         sec = time.gmtime().tm_sec
@@ -28,12 +47,12 @@ def getCurrentData():
             s = '0' + str(sec)
         else: 
             s = str(sec)
-        date = date + 'T' + h + ':' + m + ':' + s +'Z'
+        date = request.json['date'] + 'T' + h + ':' + m + ':' + s +'Z'
         jsonResponse = queryDarkSkyTimeMachine(location, date)
     else:
         jsonResponse = queryDarkSkyForecast(location)
     data = json.loads(jsonResponse)
-    return data['currently']['summary']
+    return jsonify(data['currently']['summary'])
 
 def queryDarkSkyForecast(latLongString):
     request = 'https://api.darksky.net/forecast/4a21043802f4364273e7fe25ba29c92b/'+latLongString
@@ -54,7 +73,10 @@ def queryDarkSkyTimeMachine(latLongString, time):
 
 def queryGoogleGeocode(address):
     print(address)
-    request = 'https://maps.googleapis.com/maps/api/geocode/json?address='+address+'&key=AIzaSyBV5UxMqteJE2foIpiTA9AMlvObe67ZUso'
+    if (address):
+        request = 'https://maps.googleapis.com/maps/api/geocode/json?address='+address+'&key=AIzaSyBV5UxMqteJE2foIpiTA9AMlvObe67ZUso'
+    else: 
+        return 'error: no address'
     try:
 	    response = urlopen(request)
 	    data = json.loads(response.read())
@@ -66,6 +88,10 @@ def queryGoogleGeocode(address):
     except: 
         return 'error: location does not exist'
 
-port = os.getenv('PORT', '5000')
+@atexit.register
+def shutdown():
+    if client:
+        client.disconnect()
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=int(port))
