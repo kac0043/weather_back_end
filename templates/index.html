@@ -42,7 +42,7 @@
 				    })
                     .done(function(json) {
                         data = JSON.parse(json); 
-                        $('#temp').html(AntiXSS.sanitizeInput(data.currently.temperature) + '$deg;F');
+                        $('#temp').html(AntiXSS.sanitizeInput(data.currently.temperature) + '&deg;F');
                         console.log(data['currently']);
                         $('#locationInput').hide();
                         $('#dateInput').hide();
@@ -59,7 +59,7 @@
 				    })
                     .done(function(json) {
                         data = JSON.parse(json); 
-                        $('#temp').html(AntiXSS.sanitizeInput(data.currently.temperature) + '$deg;F');
+                        $('#temp').html(AntiXSS.sanitizeInput(data.currently.temperature) + '&deg;F');
                         console.log(data['currently']);
                         $('#locationInput').hide();
                         $('#dateInput').hide();
