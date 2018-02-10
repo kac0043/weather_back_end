@@ -9,7 +9,7 @@ app = Flask(__name__)
 @app.route('/zip/<zipcode>')
 def getDataByZip(zipcode):
     #TODO: query db for zipcode
-    jsonResponse = queryDarkSkyForecast('32.6099,85.4808')
+    jsonResponse = queryDarkSkyForecast(zipcode)
     data = json.loads(jsonResponse)
     print data['timezone']
     return data['timezone']
@@ -17,7 +17,7 @@ def getDataByZip(zipcode):
 @app.route('/city/<citystate>')
 def getDataByCity(citystate):
     #TODO: query db for city and state
-    jsonResponse = queryDarkSkyForecast('32.6099,85.4808')
+    jsonResponse = queryDarkSkyForecast(citystate)
     data = json.loads(jsonResponse)
     print data['timezone']
     return data['timezone']
