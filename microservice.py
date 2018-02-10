@@ -1,14 +1,14 @@
-from urllib2 import Request, urlopen, URLError
+from urllib2 import urlopen, URLError
 import os
 import time
 import json
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 
-@app.route('/?location=<address>&submit=submit')
-def getCurrentData(address):
-    location = queryGoogleGeocode(address)
+@app.route('/')
+def getCurrentData():
+    location = queryGoogleGeocode(request.args.get('location'))
     if (location.startswith('error')):
         return location
     jsonResponse = queryDarkSkyForecast(location)
@@ -24,6 +24,7 @@ def queryDarkSkyForecast(latLongString):
         return 'error'
 
 def queryGoogleGeocode(address):
+    print(address)
     request = 'https://maps.googleapis.com/maps/api/geocode/json?address='+address+'&key=AIzaSyBV5UxMqteJE2foIpiTA9AMlvObe67ZUso'
     try:
 	    response = urlopen(request)
