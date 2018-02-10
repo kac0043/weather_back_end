@@ -12,7 +12,6 @@ def getCurrentData():
     if (location.startswith('error')):
         return location
     date = str(request.args.get('date'))
-    print(date)
     if (date):
         hour = time.gmtime().tm_hour
         minu = time.gmtime().tm_min
@@ -30,7 +29,6 @@ def getCurrentData():
         else: 
             s = str(sec)
         date = date + 'T' + h + ':' + m + ':' + s +'Z'
-        print(date)
         jsonResponse = queryDarkSkyTimeMachine(location, date)
     else:
         jsonResponse = queryDarkSkyForecast(location)
