@@ -6,21 +6,14 @@ from flask import Flask, jsonify
 
 app = Flask(__name__)
 
-@app.route('/zip/<zipcode>')
-def getDataByZip(zipcode):
-    #TODO: query db for zipcode
-    jsonResponse = queryDarkSkyForecast(zipcode)
+@app.route('/<address>')
+def getCurrentData(address):
+    location = queryGoogleGeocode(address)
+    if (location.startswith('error')):
+        return location
+    jsonResponse = queryDarkSkyForecast(location)
     data = json.loads(jsonResponse)
-    print data['timezone']
-    return data['timezone']
-
-@app.route('/city/<citystate>')
-def getDataByCity(citystate):
-    #TODO: query db for city and state
-    jsonResponse = queryDarkSkyForecast(citystate)
-    data = json.loads(jsonResponse)
-    print data['timezone']
-    return data['timezone']
+    return data['currently']['summary']
 
 def queryDarkSkyForecast(latLongString):
     request = 'https://api.darksky.net/forecast/4a21043802f4364273e7fe25ba29c92b/'+latLongString
@@ -29,6 +22,19 @@ def queryDarkSkyForecast(latLongString):
 	    return response.read()
     except:
         return 'error'
+
+def queryGoogleGeocode(address):
+    request = 'https://maps.googleapis.com/maps/api/geocode/json?address='+address+'&key=AIzaSyBV5UxMqteJE2foIpiTA9AMlvObe67ZUso'
+    try:
+	    response = urlopen(request)
+	    data = json.loads(response.read())
+    except:
+        return 'error: url wont open'
+    try:
+        latlong = str(data['results'][0]['geometry']['location']['lat'])+','+str(data['results'][0]['geometry']['location']['lng'])
+        return latlong
+    except: 
+        return 'error: location does not exist'
 
 port = os.getenv('PORT', '5000')
 if __name__ == "__main__":
