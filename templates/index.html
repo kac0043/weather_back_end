@@ -42,7 +42,8 @@
 				    })
                     .done(function(json) {
                         data = JSON.parse(json); 
-                        $('#temp').html(AntiXSS.sanitizeInput(data.currently.temperature) + '$deg;F');
+                        $('#temp').html(AntiXSS.sanitizeInput(data.currently.temperature) + '&deg;F');
+												$('#humidity').html(parseFloat(AntiXSS.sanitizeInput(data.currently.humidity)) * 100 + '% Hum');
                         console.log(data['currently']);
                         $('#locationInput').hide();
                         $('#dateInput').hide();
@@ -59,7 +60,8 @@
 				    })
                     .done(function(json) {
                         data = JSON.parse(json); 
-                        $('#temp').html(AntiXSS.sanitizeInput(data.currently.temperature) + '$deg;F');
+                        $('#temp').html(AntiXSS.sanitizeInput(data.currently.temperature) + '&deg;F');
+												$('#humidity').html(parseFloat(AntiXSS.sanitizeInput(data.currently.humidity)) * 100 + '% Hum');
                         console.log(data['currently']);
                         $('#locationInput').hide();
                         $('#dateInput').hide();
@@ -73,8 +75,8 @@
     </script>
 		<div class="container map-container">
 			<script src='https://darksky.net/map-embed/@temperature,39.000,-95.000,4.js?embed=true&timeControl=false&fieldControl=false&defaultField=temperature&defaultUnits=_c'></script>
-			<h3 id="temp">40&deg;F</h3>
-			<h3>AND THIS TOO</h3>
+			<p id="temp">40&deg;F</p>
+			<p id="humidity">50% Hum.</p>
 		</div>
 </body>
 
