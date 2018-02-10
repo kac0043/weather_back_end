@@ -4,7 +4,6 @@ import time
 import json
 from flask import Flask, jsonify, request, render_template
 from cloudant import Cloudant
-import atexit
 import cf_deployment_tracker
 
 # Emit Bluemix deployment event
@@ -25,12 +24,27 @@ def getCurrentData():
     if (request.json is None):
         return 'error: No Address Given'
         
+    location = getLocation(request.json) 
+    if (location.startswith('error')):
+        return location
+
+    date = getDate(request.json)
+    if (date):
+        jsonResponse = queryDarkSkyTimeMachine(location, date)
+    else:
+        jsonResponse = queryDarkSkyForecast(location)
+
+    print(jsonResponse) 
+
+    return jsonResponse
+
+def getLocation(jsonRequest):
     if ('name' in request.json):
         location = queryGoogleGeocode(request.json['name'])
-        if (location.startswith('error')):
-            return location
-    else:
-        return 'error: No Address Given'
+        return location
+    return 'error: No Address Given'
+    
+def getDate(jsonRequest):
     if ('date' in request.json):
         hour = time.gmtime().tm_hour
         minu = time.gmtime().tm_min
@@ -48,11 +62,7 @@ def getCurrentData():
         else: 
             s = str(sec)
         date = request.json['date'] + 'T' + h + ':' + m + ':' + s +'Z'
-        jsonResponse = queryDarkSkyTimeMachine(location, date)
-    else:
-        jsonResponse = queryDarkSkyForecast(location)
-    data = json.loads(jsonResponse)
-    return jsonify(data['currently']['summary'])
+        return date
 
 def queryDarkSkyForecast(latLongString):
     request = 'https://api.darksky.net/forecast/4a21043802f4364273e7fe25ba29c92b/'+latLongString
@@ -72,6 +82,8 @@ def queryDarkSkyTimeMachine(latLongString, time):
         return 'error'
 
 def queryGoogleGeocode(address):
+    address = address.replace(',', '')
+    address = address.replace(' ', '')
     print(address)
     if (address):
         request = 'https://maps.googleapis.com/maps/api/geocode/json?address='+address+'&key=AIzaSyBV5UxMqteJE2foIpiTA9AMlvObe67ZUso'
@@ -87,11 +99,6 @@ def queryGoogleGeocode(address):
         return latlong
     except: 
         return 'error: location does not exist'
-
-@atexit.register
-def shutdown():
-    if client:
-        client.disconnect()
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=int(port))
