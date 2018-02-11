@@ -41,15 +41,7 @@
 				    data: JSON.stringify({name: name, date: date})
 				    })
                     .done(function(json) {
-                        data = JSON.parse(json); 
-                        $('#temp').html(AntiXSS.sanitizeInput(data.currently.temperature) + '&deg;F');
-                        $('#humidity').html(parseFloat(AntiXSS.sanitizeInput(data.currently.humidity)) * 100 + '% Hum');
-                        $('#precip').html(parseFloat(AntiXSS.sanitizeInput(data.currently.precipProbability)) * 100 + '% Chance of ' + AntiXSS.sanitizeInput(data.currently.precipType));
-						$('#apparentTemp').html('Feels like ' + AntiXSS.sanitizeInput(data.currently.apparentTemperature) + '&deg;F');
-                        $('#locationInput').hide();
-                        $('#dateInput').hide();
-                        $('#dateLabel').hide();
-                        $('#locLabel').hide();
+                        render(json);
                     });
                 }
                 else {
@@ -60,27 +52,34 @@
 				    data: JSON.stringify({name: name})
 				    })
                     .done(function(json) {
-                        data = JSON.parse(json); 
-                        $('#temp').html(AntiXSS.sanitizeInput(data.currently.temperature) + '&deg;F');
-                        $('#humidity').html(parseFloat(AntiXSS.sanitizeInput(data.currently.humidity)) * 100 + '% Hum');
-                        $('#precip').html(parseFloat(AntiXSS.sanitizeInput(data.currently.precipProbability)) * 100 + '% Chance of ' + AntiXSS.sanitizeInput(data.currently.precipType));
-						$('#apparentTemp').html('Feels like ' + AntiXSS.sanitizeInput(data.currently.apparentTemperature) + '&deg;F');
-                        $('#locationInput').hide();
-                        $('#dateInput').hide();
-                        $('#dateLabel').hide();
-                        $('#locLabel').hide();
+                        render(json);
                     });
                 }
             }
         });
-
+        
+        function render(json){
+            data = JSON.parse(json); 
+            var utcSeconds = parseFloat(AntiXSS.sanitizeInput(data.currently.time));
+            var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
+            var date = d.setUTCSeconds(utcSeconds);
+            $('#time').html(date);
+            $('#temp').html(AntiXSS.sanitizeInput(data.currently.temperature) + '&deg;F');
+            $('#humidity').html(parseFloat(AntiXSS.sanitizeInput(data.currently.humidity)) * 100 + '% Hum');
+            $('#precip').html(parseFloat(AntiXSS.sanitizeInput(data.currently.precipProbability)) * 100 + '% Chance of ' + AntiXSS.sanitizeInput(data.currently.precipType));
+			$('#apparentTemp').html('Feels like ' + AntiXSS.sanitizeInput(data.currently.apparentTemperature) + '&deg;F');
+            $('#locationInput').hide();
+            $('#dateInput').hide();
+            $('#dateLabel').hide();
+            $('#locLabel').hide();
+        }
     </script>
 		<div class="container map-container">
 			<script src='https://darksky.net/map-embed/@temperature,39.000,-95.000,4.js?embed=true&timeControl=false&fieldControl=false&defaultField=temperature&defaultUnits=_c'></script>
 			<p id="temp">40&deg;F</p>
             <p id="humidity">50% Hum.</p>
             <p id="precip">22% Chance of Rain</p>
-			<p id="apparentTemp">Feels like 40&deg;F</p>
+            <p id="apparentTemp">Feels like 40&deg;F</p>
 		</div>
 </body>
 
