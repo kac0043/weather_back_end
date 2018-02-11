@@ -10,14 +10,25 @@
             <input id="location" type="text" placeholder="Enter Zipcode or City and State" value="" />
         </div>
 
-        <label id=dateLabel>Enter Date (Optional)</label>
+        <!--<label id=dateLabel>Enter Date (Optional)</label>
         <div id="dateInput" class="input-group-lg center-block helloInput">
             <input id="date" type="text" placeholder="YYYY-MM-DD" value="" />
         </div>
 				<div id="submitInput" class="input-group-lg center-block">
 					<input type="submit" id="submit" name="submit" value="Submit" />
 				</div>
-        <p id="response" class="lead text-center"></p>
+        <p id="response" class="lead text-center"></p>-->
+				<label id="dateLabel">Enter Date (Optional)</label>
+				<div id="dateContainer" class="input-group-lg center-block">
+					<input type="date" id="dateInput" />
+				</div>
+				<label id="timeLabel">Enter Time (Optional)</label>
+				<div id="timeContainer" class="input-group-lg center-block">
+					<input type="time" id="timeInput" />
+				</div>
+				<div id="submitContainer" class="input-group-lg center-block">
+					<input type="submit" id="submit" name="submit" value="Submit" />
+				</div>
     </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -31,20 +42,27 @@
 						console.log("I DID IT");
             var name = $('#location').val();
             var date = $('#date').val();
+						var time = $('#time').val();
             if (name.length > 0) { //catch Enter key
                 //POST request to API to create a new visitor entry in the database
-                if (date.length > 0){
+                if (date.length === 0){
+									date = new Date();
+								}
+								if (time.length === 0) {
+									time = new Time();
+								}
+								var datetime = date.getTime() / 1000 + time.getHours() * 3600 + time.getMinutes() * 60 + time.getSeconds();
                     $.ajax({
 				     method: "POST",
 				    url: "./api",
 				    contentType: "application/json",
-				    data: JSON.stringify({name: name, date: date})
+				    data: JSON.stringify({name: name, datetime: datetime})
 				    })
                     .done(function(json) {
                         render(json);
                     });
-                }
-                else {
+                
+                /*else {
                     $.ajax({
 				     method: "POST",
 				    url: "./api",
@@ -54,7 +72,7 @@
                     .done(function(json) {
                         render(json);
                     });
-                }
+                }*/
             }
         });
         
@@ -86,6 +104,8 @@
 			<p id="visibility">50% Visibility</p>
 			<p id="time">3:00 PM</p>
 			<p id="summary">Cloudy</p>
+			
+			
 		</div>
 </body>
 
