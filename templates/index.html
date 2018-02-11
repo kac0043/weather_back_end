@@ -45,7 +45,7 @@
                         $('#temp').html(AntiXSS.sanitizeInput(data.currently.temperature) + '&deg;F');
                         $('#humidity').html(parseFloat(AntiXSS.sanitizeInput(data.currently.humidity)) * 100 + '% Hum');
                         $('#precip').html(parseFloat(AntiXSS.sanitizeInput(data.currently.precipProbability)) * 100 + '% Chance of ' + AntiXSS.sanitizeInput(data.currently.precipType));
-						$('#apparentTemp').html('Feels like ' + AntiXSS.sanitizeInput(data.currently.apparentTemperature) + '&deg;F');
+												$('#apparentTemp').html('Feels like ' + AntiXSS.sanitizeInput(data.currently.apparentTemperature) + '&deg;F');
                         $('#locationInput').hide();
                         $('#dateInput').hide();
                         $('#dateLabel').hide();
@@ -64,7 +64,7 @@
                         $('#temp').html(AntiXSS.sanitizeInput(data.currently.temperature) + '&deg;F');
                         $('#humidity').html(parseFloat(AntiXSS.sanitizeInput(data.currently.humidity)) * 100 + '% Hum');
                         $('#precip').html(parseFloat(AntiXSS.sanitizeInput(data.currently.precipProbability)) * 100 + '% Chance of ' + AntiXSS.sanitizeInput(data.currently.precipType));
-						$('#apparentTemp').html('Feels like ' + AntiXSS.sanitizeInput(data.currently.apparentTemperature) + '&deg;F');
+												$('#apparentTemp').html('Feels like ' + AntiXSS.sanitizeInput(data.currently.apparentTemperature) + '&deg;F');
                         $('#locationInput').hide();
                         $('#dateInput').hide();
                         $('#dateLabel').hide();
@@ -78,9 +78,15 @@
 		<div class="container map-container">
 			<script src='https://darksky.net/map-embed/@temperature,39.000,-95.000,4.js?embed=true&timeControl=false&fieldControl=false&defaultField=temperature&defaultUnits=_c'></script>
 			<p id="temp">40&deg;F</p>
-            <p id="humidity">50% Hum.</p>
-            <p id="precip">22% Chance of Rain</p>
+      <p id="humidity">50% Hum.</p>
+      <p id="precip">22% Chance of Rain</p>
 			<p id="apparentTemp">Feels like 40&deg;F</p>
+			<p id="windSpeed">10 MPH</p>
+			<p id="windBearing">180</p>
+			<p id="cloudCover">10% Cover</p>
+			<p id="visibility">50% Visibility</p>
+			<p id="time">3:00 PM</p>
+			<p id="summary">Cloudy</p>
 		</div>
 </body>
 
