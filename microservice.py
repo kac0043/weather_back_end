@@ -65,7 +65,7 @@ def getDate(jsonRequest):
         return date
 
 def queryDarkSkyForecast(latLongString):
-    request = 'https://api.darksky.net/forecast/4a21043802f4364273e7fe25ba29c92b/'+latLongString
+    request = 'https://api.darksky.net/forecast/4a21043802f4364273e7fe25ba29c92b/'+latLongString+'?units=auto'
     try:
 	    response = urlopen(request)
 	    return response.read()
@@ -74,7 +74,6 @@ def queryDarkSkyForecast(latLongString):
 
 def queryDarkSkyTimeMachine(latLongString, time):
     request = 'https://api.darksky.net/forecast/4a21043802f4364273e7fe25ba29c92b/'+latLongString+','+time
-    print(request)
     try:
 	    response = urlopen(request)
 	    return response.read()
