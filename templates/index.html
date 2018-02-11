@@ -2,6 +2,10 @@
 <html lang="en">
 <head>
 	<link rel="stylesheet" type="text/css" href="../static/main.css">
+	<link rel="stylesheet" type="text/css" href="../static/weather-icons.css">
+	<link rel="stylesheet" type="text/css" href="../static/weather-icons.min.css">
+	<link rel="stylesheet" type="text/css" href="../static/weather-icons-wind.css">
+	<link rel="stylesheet" type="text/css" href="../static/weather-icons-wind.min.css">
 </head>
 <body>
     <div class="container">
@@ -53,12 +57,12 @@
 							datetime.setSeconds(0);
 							datetime.setMilliseconds(0);
 						}
-                console.log(datetime)
+                console.log(datetime.getTime())
                 $.ajax({
 				    method: "POST",
 				    url: "./api",
 				    contentType: "application/json",
-				    data: JSON.stringify({name: name, datetime: datetime})
+				    data: JSON.stringify({name: name, datetime: datetime.getTime()})
 				    })
                     .done(function(json) {
                         render(json);
