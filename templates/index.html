@@ -60,12 +60,14 @@
         
         function render(json){
             data = JSON.parse(json); 
-            var d = new Date(parseFloat(AntiXSS.sanitizeInput(data.currently.time)*1000)); // The 0 there is the key, which sets the date to the epoch
+            var d = new Date(parseFloat(AntiXSS.sanitizeInput(data.time)*1000)); // The 0 there is the key, which sets the date to the epoch
             $('#time').html(d);
-            $('#temp').html(AntiXSS.sanitizeInput(data.currently.temperature) + '&deg;F');
-            $('#humidity').html(parseFloat(AntiXSS.sanitizeInput(data.currently.humidity)) * 100 + '% Hum');
-            $('#precip').html(parseFloat(AntiXSS.sanitizeInput(data.currently.precipProbability)) * 100 + '% Chance of ' + AntiXSS.sanitizeInput(data.currently.precipType));
-			$('#apparentTemp').html('Feels like ' + AntiXSS.sanitizeInput(data.currently.apparentTemperature) + '&deg;F');
+            $('#temp').html(AntiXSS.sanitizeInput(data.temperature) + '&deg;F');
+            $('#humidity').html(parseFloat(AntiXSS.sanitizeInput(data.humidity)) * 100 + '% Hum');
+            var precip = AntiXSS.sanitizeInput(data.precipType); 
+            if (precip == 'undefined') precip = 'precipitation'; 
+            $('#precip').html(parseFloat(AntiXSS.sanitizeInput(data.precipProbability)) * 100 + '% Chance of ' + precip);
+			$('#apparentTemp').html('Feels like ' + AntiXSS.sanitizeInput(data.apparentTemperature) + '&deg;F');
             $('#locationInput').hide();
             $('#dateInput').hide();
             $('#dateLabel').hide();

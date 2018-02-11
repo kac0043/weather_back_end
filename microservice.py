@@ -5,11 +5,40 @@ import json
 from flask import Flask, jsonify, request, render_template
 from cloudant import Cloudant
 import cf_deployment_tracker
+import atexit
+
+# Emit Bluemix deployment event
+cf_deployment_tracker.track()
 
 # Emit Bluemix deployment event
 cf_deployment_tracker.track()
 
 app = Flask(__name__)
+
+db_name = 'mydb'
+client = None
+db = None
+
+if 'VCAP_SERVICES' in os.environ:
+    vcap = json.loads(os.getenv('VCAP_SERVICES'))
+    print('Found VCAP_SERVICES')
+    if 'cloudantNoSQLDB' in vcap:
+        creds = vcap['cloudantNoSQLDB'][0]['credentials']
+        user = creds['username']
+        password = creds['password']
+        url = 'https://' + creds['host']
+        client = Cloudant(user, password, url=url, connect=True)
+        db = client.create_database(db_name, throw_on_exists=False)
+elif os.path.isfile('vcap-local.json'):
+    with open('vcap-local.json') as f:
+        vcap = json.load(f)
+        print('Found local VCAP_SERVICES')
+        creds = vcap['services']['cloudantNoSQLDB'][0]['credentials']
+        user = creds['username']
+        password = creds['password']
+        url = 'https://' + creds['host']
+        client = Cloudant(user, password, url=url, connect=True)
+        db = client.create_database(db_name, throw_on_exists=False)
 
 # On Bluemix, get the port number from the environment variable PORT
 # When running this app on the local machine, default the port to 8000
@@ -28,41 +57,23 @@ def getCurrentData():
     if (location.startswith('error')):
         return location
 
-    date = getDate(request.json)
-    if (date):
-        jsonResponse = queryDarkSkyTimeMachine(location, date)
-    else:
-        jsonResponse = queryDarkSkyForecast(location)
+    date = request.json['datetime'] 
+        
+    jsonResponse = queryDarkSkyTimeMachine(location, date)
 
-    print(jsonResponse) 
+    data = json.loads(jsonResponse) 
 
-    return jsonResponse
+    currently = data['currently']
+
+    timeMap = {currently['time'] : currently} 
+
+    return json.dumps(currently)
 
 def getLocation(jsonRequest):
     if ('name' in request.json):
         location = queryGoogleGeocode(request.json['name'])
         return location
     return 'error: No Address Given'
-    
-def getDate(jsonRequest):
-    if ('date' in request.json):
-        hour = time.gmtime().tm_hour
-        minu = time.gmtime().tm_min
-        sec = time.gmtime().tm_sec
-        if (hour < 10):
-            h = '0' + str(hour)
-        else: 
-            h = str(hour)
-        if (minu < 10):
-            m = '0' + str(minu)
-        else: 
-            m = str(minu)
-        if (sec < 10):
-            s = '0' + str(sec)
-        else: 
-            s = str(sec)
-        date = request.json['date'] + 'T' + h + ':' + m + ':' + s +'Z'
-        return date
 
 def queryDarkSkyForecast(latLongString):
     request = 'https://api.darksky.net/forecast/4a21043802f4364273e7fe25ba29c92b/'+latLongString+'?units=auto'
@@ -98,6 +109,11 @@ def queryGoogleGeocode(address):
         return latlong
     except: 
         return 'error: location does not exist'
+
+@atexit.register
+def shutdown():
+    if client:
+        client.disconnect()
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=int(port))
