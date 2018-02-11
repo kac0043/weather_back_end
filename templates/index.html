@@ -31,18 +31,29 @@
     	//Submit data when enter key is pressed
         $('#submit').click(function() {
 			console.log("I DID IT");
+						var datetime = new Date();
+						console.log(datetime);
             var name = $('#location').val();
-            var date = $('#date').val();
-			var time = $('#time').val();
+            var date = $('#dateInput').val();
+						console.log(date);
+						var time = $('#timeInput').val();
+						console.log(time);
             if (name.length > 0) { //catch Enter key
                 //POST request to API to create a new visitor entry in the database
-                if (date == null || date.length == 0){
-				    date = new Date();
-				}
-			    if (time == null || time.length == 0) {
-					time = new Date();
-			    }
-                var datetime = date.getTime() / 1000 + time.getHours() * 3600 + time.getMinutes() * 60 + time.getSeconds();
+                if (date != null && date.trim().length > 0){
+									var dateSplit = date.split("-");
+									datetime.setFullYear(parseInt(dateSplit[0]));
+									datetime.setMonth(parseInt(dateSplit[1]));
+									datetime.setMonth(parseInt(dateSplit[2]));
+								}
+						if (time != null && time.trim().length > 0) {
+							var timeSplit = time.split(":");
+							datetime.setHours(parseInt(timeSplit[0]));
+							datetime.setMinutes(parseInt(timeSplit[1]));
+							datetime.setSeconds(0);
+							datetime.setMilliseconds(0);
+						}
+                console.log(datetime)
                 $.ajax({
 				    method: "POST",
 				    url: "./api",
