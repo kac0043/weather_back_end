@@ -103,6 +103,13 @@ def queryDarkSkyTimeMachine(latLongString, time):
         hourly = data['hourly']
         daily = data['daily']
 
+        currently['latitude'] = data['latitude']
+        hourly['latitude'] = data['latitude']
+        daily['latitude'] = data['latitude']
+        currently['longitude'] = data['longitude']
+        hourly['longitude'] = data['longitude']
+        daily['longitude'] = data['longitude']
+
         for i in range(0, len(daily['data'])-1):
             locTimeMap[latLongString + str(daily['data'][i]['time'])] = daily['data'][i]
         

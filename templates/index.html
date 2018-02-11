@@ -10,6 +10,7 @@
 <body>
     <div class="container">
         <label id=locLabel>Enter Location</label>
+
         <div id="locationInput" class="input-group-lg center-block helloInput">
             <input id="location" type="text" placeholder="Enter Zipcode or City and State" value="36832" />
         </div>
@@ -79,7 +80,7 @@
             var precip = AntiXSS.sanitizeInput(data.precipType); 
             if (precip == 'undefined') precip = 'precipitation'; 
             $('#precip').html(parseFloat(AntiXSS.sanitizeInput(data.precipProbability)) * 100 + '% Chance of ' + precip);
-						$('#intensity').html(parseFloat(AntiXSS.sanitizeInput(data.precipProbability)) * 100 + '% Intensity');
+			$('#intensity').html(parseFloat(AntiXSS.sanitizeInput(data.precipProbability)) * 100 + '% Intensity');
 			$('#apparentTemp').html('Feels like ' + AntiXSS.sanitizeInput(data.apparentTemperature) + '&deg;F');
         }
 				
@@ -97,7 +98,25 @@
 							$(this).parent().children('.tabcontent').css('display', 'inline-block');
 						}
 					});
-				});
+                });
+                
+
+        function insertGoogleScript() {
+	        var google_api = document.createElement('script'),
+			api_key    = 'AIzaSyBqMAS6VPFmEm9PKpvnN1ZxnQK3rIlgEW8';
+
+	        google_api.src = 'https://maps.googleapis.com/maps/api/js?key='+ api_key +'&callback=initGoogleAPI&libraries=places,geometry';
+	        document.body.appendChild(google_api);
+        }
+
+
+        // SearchBox Method
+        function initGoogleAPI() {
+	        var autocomplete = new google.maps.places.SearchBox(document.querySelector("#city-search"));
+	        autocomplete.addListener('places_changed', function() {
+		    var place = autocomplete.getPlaces()[0];
+	    });
+}
     </script>
 		<div class="container map-container">
 			<script src='https://darksky.net/map-embed/@temperature,39.000,-95.000,4.js?embed=true&timeControl=true&fieldControl=true&defaultField=temperature&defaultUnits=_f'></script>
