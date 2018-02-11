@@ -111,7 +111,10 @@
 			$('#intensity').html(parseFloat(AntiXSS.sanitizeInput(data.precipProbability)) * 100 + '% Intensity');
             $('#apparentTemp').html('Feels like ' + AntiXSS.sanitizeInput(data.apparentTemperature) + '&deg;F');
             $('#windSpeed').html(parseFloat(AntiXSS.sanitizeInput(data.windSpeed)) + 'MPH');
-            $('#windBearing').html(parseFloat(AntiXSS.sanitizeInput(data.windBearing)) + '&deg; From ');
+            $('#windBearing').html(parseFloat(AntiXSS.sanitizeInput(data.windBearing)) + '&deg; From North');
+            $('#summary').html(parseFloat(AntiXSS.sanitizeInput(data.summary)));
+            $('#cloudCover').html(parseFloat(AntiXSS.sanitizeInput(data.cloudCover)) * 100 + '% Cloud Cover');
+            $('#visibility').html(parseFloat(AntiXSS.sanitizeInput(data.visibility)) + ' Miles of Visibility');
 			var mapSource = 'https://darksky.net/map-embed/@temperature,' + data.latitude + ',' + data.longitude + ',20.js?embed=true&timeControl=true&fieldControl=true&defaultField=temperature&defaultUnits=_f';
             $('#mapscript').attr('src', mapSource);
             var element = document.getElementById('mapscript'); 
@@ -138,6 +141,7 @@
 		<div class="container map-container">
             <iframe id='mapscript' width='100%' frameBorder='0' style='height: 70vh; margin: 25px 0;' src='https://maps.darksky.net/@temperature,39.000,-95.000,4?embed=true&timeControl=true&fieldControl=true&defaultField=temperature&defaultUnits=_f'></iframe>
 			<ul class="tablist">
+               
 				<li class="tab-container">
 					<span class="tab"><i id="therm-icon" class="wi wi-thermometer"></i></span>
 					<div class="tabcontent">
@@ -155,7 +159,7 @@
 						<p id="precip">22% Chance of Rain</p>
 						<p id="intensity">87% Intensity</p>
 						<p id="cloudCover">10% Cloud Cover</p>
-						<p id="visibility">50% Visibility</p>
+						<p id="visibility">8 Miles</p>
 					</div>
 				</li>
 				<li class="tab-container">
