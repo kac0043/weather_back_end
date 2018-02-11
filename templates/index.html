@@ -79,21 +79,58 @@
             var precip = AntiXSS.sanitizeInput(data.precipType); 
             if (precip == 'undefined') precip = 'precipitation'; 
             $('#precip').html(parseFloat(AntiXSS.sanitizeInput(data.precipProbability)) * 100 + '% Chance of ' + precip);
+						$('#intensity').html(parseFloat(AntiXSS.sanitizeInput(data.precipProbability)) * 100 + '% Intensity');
 			$('#apparentTemp').html('Feels like ' + AntiXSS.sanitizeInput(data.apparentTemperature) + '&deg;F');
         }
+				
+				$(document).ready(function() {
+					$('.tab').click(function() {
+						console.log('Clicked tab');
+						if ($(this).hasClass('active')) {
+							console.log('Detected class');
+							$(this).removeClass('active');
+							$('.tabcontent').css('display', 'none');
+						} else {
+							$('.tab').removeClass('active');
+							$('.tabcontent').css('display', 'none');
+							$(this).addClass('active');
+							$(this).parent().children('.tabcontent').css('display', 'inline-block');
+						}
+					});
+				});
     </script>
 		<div class="container map-container">
-            <iframe width='100%' frameBorder='0' style='height: 70vh; margin: 25px 0;' src='https://maps.darksky.net/@temperature,39.000,-95.000,4?embed=true&timeControl=true&fieldControl=true&defaultField=temperature&defaultUnits=_f'></iframe>
-            <p id="temp">40&deg;F</p>
-            <p id="humidity">50% Hum.</p>
-            <p id="precip">22% Chance of Rain</p>
-			<p id="apparentTemp">Feels like 40&deg;F</p>
-			<p id="windSpeed">10 MPH</p>
-			<p id="windBearing">180</p>
-			<p id="cloudCover">10% Cover</p>
-			<p id="visibility">50% Visibility</p>
+			<script src='https://darksky.net/map-embed/@temperature,39.000,-95.000,4.js?embed=true&timeControl=false&fieldControl=false&defaultField=temperature&defaultUnits=_c'></script>
+			<ul class="tablist">
+				<li class="tab-container">
+					<span class="tab"><i id="therm-icon" class="wi wi-thermometer"></i></span>
+					<div class="tabcontent">
+						<p id="temp">40&deg;F</p>
+                        <p id="humidity">50% Hum.</p>
+						<p id="apparentTemp">Feels like 40&deg;F</p>
+					</div>
+				</li>
+				<li class="tab-container">
+					<span class="tab"><i id="precip-icon" class="wi wi-rain"></i></span>
+					<div class="tabcontent">
+						<p id="summary">Cloudy</p>
+						<p id="precip">22% Chance of Rain</p>
+						<p id="intensity">87% Intensity</p>
+						<p id="cloudCover">10% Cloud Cover</p>
+						<p id="visibility">50% Visibility</p>
+					</div>
+				</li>
+				<li class="tab-container">
+					<span class="tab"><i id="wind-icon" class="wi wi-strong-wind"></i></span>
+					<div class="tabcontent">
+						<p id="windSpeed">10 MPH</p>
+						<p id="windBearing">180</p>
+					</div>
+				</li>
+			</ul>
+			
 			<p id="time">3:00 PM</p>
-			<p id="summary">Cloudy</p>
+			
 		</div>
 </body>
 
