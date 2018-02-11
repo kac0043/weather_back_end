@@ -21,3 +21,12 @@
 	text-shadow: 0 0 10px #333333;
 	pointer-events: none;
 }
+
+#apparentTemp {
+	font-size: 1.5em;
+	position: absolute;
+	top: 110px;
+	left: 40px;
+	text-shadow: 0 0 10px #333333;
+	pointer-events: none;
+}
