@@ -97,7 +97,8 @@
             $('#cloudCover').html(parseFloat(AntiXSS.sanitizeInput(data.cloudCover)) * 100 + '% Cloud Cover');
             $('#visibility').html(parseFloat(AntiXSS.sanitizeInput(data.visibility)) + ' Miles of Visibility');
             $('#minutely').html(parseFloat(AntiXSS.sanitizeInput(data.minutely)));
-			var mapSource = 'https://darksky.net/map-embed/@temperature,' + data.latitude + ',' + data.longitude + ',20.js?embed=true&timeControl=true&fieldControl=true&defaultField=temperature&defaultUnits=_f';
+            var mapSource = 'https://maps.darksky.net/@temperature,' + data.latitude + ',' + data.longitude + ',20?embed=false&timeControl=true&fieldControl=true&defaultField=temperature&defaultUnits=_f';
+            console.log(mapSource);
             $('#mapscript').attr('src', mapSource);
             var element = document.getElementById('mapscript'); 
             element.src = mapSource; 
@@ -121,7 +122,7 @@
                 
     </script>
 		<div class="container map-container">
-            <iframe id='mapscript' width='100%' frameBorder='0' style='height: 70vh; margin: 25px 0;' src='https://maps.darksky.net/@temperature,39.000,-95.000,4?embed=true&timeControl=true&fieldControl=true&defaultField=temperature&defaultUnits=_f'></iframe>
+            <iframe id='mapscript' width='100%' frameBorder='0' style='height: 70vh; margin: 25px 0;' src='https://maps.darksky.net/@temperature,39.000,-95.000,4?embed=false&timeControl=true&fieldControl=true&defaultField=temperature&defaultUnits=_f'></iframe>
 			<ul class="tablist">
                     <li class="tab-container">
                             <span class="tab"><i id="therm-icon" class="wi wi-thermometer"></i></span>
