@@ -39,3 +39,57 @@
 	text-shadow: 0 0 10px #333333;
 	pointer-events: none;
 }
+
+#windSpeed {
+	font-size: 1.5em;
+	position: absolute;
+	top: 150px;
+	left: 40px;
+	text-shadow: 0 0 10px #333333;
+	pointer-events: none;
+}
+
+#windBearing {
+	font-size: 1.5em;
+	position: absolute;
+	top: 190px;
+	left: 40px;
+	text-shadow: 0 0 10px #333333;
+	pointer-events: none;
+}
+
+#cloudCover {
+	font-size: 1.5em;
+	position: absolute;
+	top: 230px;
+	left: 40px;
+	text-shadow: 0 0 10px #333333;
+	pointer-events: none;
+}
+
+#visibility {
+	font-size: 1.5em;
+	position: absolute;
+	top: 270px;
+	left: 40px;
+	text-shadow: 0 0 10px #333333;
+	pointer-events: none;
+}
+
+#time {
+	font-size: 1.5em;
+	position: absolute;
+	top: 310px;
+	left: 40px;
+	text-shadow: 0 0 10px #333333;
+	pointer-events: none;
+}
+
+#summary {
+	font-size: 1.5em;
+	position: absolute;
+	top: 350px;
+	left: 40px;
+	text-shadow: 0 0 10px #333333;
+	pointer-events: none;
+}

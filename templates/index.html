@@ -60,10 +60,8 @@
         
         function render(json){
             data = JSON.parse(json); 
-            var utcSeconds = parseFloat(AntiXSS.sanitizeInput(data.currently.time));
-            var d = new Date(0); // The 0 there is the key, which sets the date to the epoch
-            var date = d.setUTCSeconds(utcSeconds);
-            $('#time').html(date);
+            var d = new Date(parseFloat(AntiXSS.sanitizeInput(data.currently.time)*1000)); // The 0 there is the key, which sets the date to the epoch
+            $('#time').html(d);
             $('#temp').html(AntiXSS.sanitizeInput(data.currently.temperature) + '&deg;F');
             $('#humidity').html(parseFloat(AntiXSS.sanitizeInput(data.currently.humidity)) * 100 + '% Hum');
             $('#precip').html(parseFloat(AntiXSS.sanitizeInput(data.currently.precipProbability)) * 100 + '% Chance of ' + AntiXSS.sanitizeInput(data.currently.precipType));
@@ -79,7 +77,13 @@
 			<p id="temp">40&deg;F</p>
             <p id="humidity">50% Hum.</p>
             <p id="precip">22% Chance of Rain</p>
-            <p id="apparentTemp">Feels like 40&deg;F</p>
+			<p id="apparentTemp">Feels like 40&deg;F</p>
+			<p id="windSpeed">10 MPH</p>
+			<p id="windBearing">180</p>
+			<p id="cloudCover">10% Cover</p>
+			<p id="visibility">50% Visibility</p>
+			<p id="time">3:00 PM</p>
+			<p id="summary">Cloudy</p>
 		</div>
 </body>
 
