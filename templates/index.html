@@ -31,7 +31,7 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="../static/antixss.js" type="text/javascript"></script>
-    <script src="index.js" type="text/javascript"></script>
+    <!--<script src="index.js" type="text/javascript"></script>-->
 
     <script>
     	//Submit data when enter key is pressed
@@ -81,6 +81,8 @@
             $('#precip').html(parseFloat(AntiXSS.sanitizeInput(data.precipProbability)) * 100 + '% Chance of ' + precip);
 						$('#intensity').html(parseFloat(AntiXSS.sanitizeInput(data.precipProbability)) * 100 + '% Intensity');
 			$('#apparentTemp').html('Feels like ' + AntiXSS.sanitizeInput(data.apparentTemperature) + '&deg;F');
+						var mapSource = 'https://darksky.net/map-embed/@temperature,' + data.latitude + ',' + data.longitude + ',4.js?embed=true&timeControl=true&fieldControl=true&defaultField=temperature&defaultUnits=_f';
+						$('#mapscript').attr('src', mapSource);
         }
 				
 				$(document).ready(function() {
@@ -100,7 +102,7 @@
 				});
     </script>
 		<div class="container map-container">
-			<script src='https://darksky.net/map-embed/@temperature,39.000,-95.000,4.js?embed=true&timeControl=true&fieldControl=true&defaultField=temperature&defaultUnits=_f'></script>
+			<script id='mapscript' src='https://darksky.net/map-embed/@temperature,39.000,-95.000,4.js?embed=true&timeControl=true&fieldControl=true&defaultField=temperature&defaultUnits=_f'></script>
 			<ul class="tablist">
 				<li class="tab-container">
 					<span class="tab"><i id="therm-icon" class="wi wi-thermometer"></i></span>
