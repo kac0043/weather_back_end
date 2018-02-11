@@ -96,7 +96,6 @@
             $('#summary').html(parseFloat(AntiXSS.sanitizeInput(data.summary)));
             $('#cloudCover').html(parseFloat(AntiXSS.sanitizeInput(data.cloudCover)) * 100 + '% Cloud Cover');
             $('#visibility').html(parseFloat(AntiXSS.sanitizeInput(data.visibility)) + ' Miles of Visibility');
-            $('#minutely').html(parseFloat(AntiXSS.sanitizeInput(data.minutely)));
             var mapSource = 'https://maps.darksky.net/@temperature,' + data.latitude + ',' + data.longitude + ',20?embed=false&timeControl=true&fieldControl=true&defaultField=temperature&defaultUnits=_f';
             console.log(mapSource);
             $('#mapscript').attr('src', mapSource);
