@@ -45,6 +45,7 @@
                         $('#temp').html(AntiXSS.sanitizeInput(data.currently.temperature) + '&deg;F');
                         $('#humidity').html(parseFloat(AntiXSS.sanitizeInput(data.currently.humidity)) * 100 + '% Hum');
                         $('#precip').html(parseFloat(AntiXSS.sanitizeInput(data.currently.precipProbability)) * 100 + '% Chance of ' + AntiXSS.sanitizeInput(data.currently.precipType));
+						$('#apparentTemp').html('Feels like ' + AntiXSS.sanitizeInput(data.currently.apparentTemperature) + '&deg;F');
                         $('#locationInput').hide();
                         $('#dateInput').hide();
                         $('#dateLabel').hide();
@@ -63,6 +64,7 @@
                         $('#temp').html(AntiXSS.sanitizeInput(data.currently.temperature) + '&deg;F');
                         $('#humidity').html(parseFloat(AntiXSS.sanitizeInput(data.currently.humidity)) * 100 + '% Hum');
                         $('#precip').html(parseFloat(AntiXSS.sanitizeInput(data.currently.precipProbability)) * 100 + '% Chance of ' + AntiXSS.sanitizeInput(data.currently.precipType));
+						$('#apparentTemp').html('Feels like ' + AntiXSS.sanitizeInput(data.currently.apparentTemperature) + '&deg;F');
                         $('#locationInput').hide();
                         $('#dateInput').hide();
                         $('#dateLabel').hide();
@@ -78,6 +80,7 @@
 			<p id="temp">40&deg;F</p>
             <p id="humidity">50% Hum.</p>
             <p id="precip">22% Chance of Rain</p>
+			<p id="apparentTemp">Feels like 40&deg;F</p>
 		</div>
 </body>
 
