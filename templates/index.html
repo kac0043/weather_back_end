@@ -10,48 +10,30 @@
 <body>
     
     <div class="container">
-
-            <div class="screen">
-                   <!--<img src="img/logo.svg" alt="the envato weather app" id="logo">-->
-                        <fieldset>
-                            <legend>Search for weather conditions by City, State or by Zipcode.</legend>
-                            <ul class="list-reset">
-                                <li class="form-field">
-                                    <label for="city-search" id=locLabel>Enter Location</label>
-                                    <input type="text" id="location" placeholder="Enter Zipcode or City and State">
-                                </li>
+        <div class="screen">
+            <!--<img src="img/logo.svg" alt="the envato weather app" id="logo">-->
+                <fieldset>
+                    <legend>Search for weather conditions by City, State or by Zipcode.</legend>
+                        <ul class="list-reset">
+                            <li class="form-field">
+                                <label for="city-search" id=locLabel>Enter Location</label>
+                                <input type="text" id="location" placeholder="Enter Zipcode or City and State">
+                            </li>
+                            <li class="form-field">
+                                <label id="dateLabel">Date (Optional)</label>
+                                <input type="date" id="dateInput">
+                            </li>
     
-                                <li class="form-field">
-                                    <label id="dateLabel">Date (Optional)</label>
-                                    <input type="date" id="dateInput">
-                                </li>
-    
-                                <li class="form-field">
-                                    <label id="timeLabel">Enter Time (Optional)</label>
-                                    <input type="time" id="timeInput">
-                                </li>
+                            <li class="form-field">
+                                <label id="timeLabel">Enter Time (Optional)</label>
+                                <input type="time" id="timeInput">
+                            </li>
 
-                            </ul>
-                        </fieldset>
+                        </ul>
+                    </fieldset>
     
-                        <button id="submit">Get Weather</button>
-                </div>
-
-        <!--<label id=locLabel>Enter Location</label>
-        <div id="locationInput" class="input-group-lg center-block helloInput">
-            <input type="text" id="location" placeholder="Enter Zipcode or City and State">
+                <button id="submit">Get Weather</button>
         </div>
-				<label id="dateLabel">Enter Date (Optional)</label>
-				<div id="dateContainer" class="input-group-lg center-block">
-					<input type="date" id="dateInput" />
-				</div>
-				<label id="timeLabel">Enter Time (Optional)</label>
-				<div id="timeContainer" class="input-group-lg center-block">
-					<input type="time" id="timeInput" />
-                </div>
-				<div id="submitContainer" class="input-group-lg center-block">
-					<input type="submit" id="submit" name="submit" value="Submit" />
-				</div>-->
     </div>
     
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -59,7 +41,6 @@
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="../static/antixss.js" type="text/javascript"></script>
-    <!--<script src="index.js" type="text/javascript"></script>-->
     <script src="js/index.js"></script>
 
     <script>
@@ -115,6 +96,7 @@
             $('#summary').html(parseFloat(AntiXSS.sanitizeInput(data.summary)));
             $('#cloudCover').html(parseFloat(AntiXSS.sanitizeInput(data.cloudCover)) * 100 + '% Cloud Cover');
             $('#visibility').html(parseFloat(AntiXSS.sanitizeInput(data.visibility)) + ' Miles of Visibility');
+            $('#minutely').html(parseFloat(AntiXSS.sanitizeInput(data.minutely)));
 			var mapSource = 'https://darksky.net/map-embed/@temperature,' + data.latitude + ',' + data.longitude + ',20.js?embed=true&timeControl=true&fieldControl=true&defaultField=temperature&defaultUnits=_f';
             $('#mapscript').attr('src', mapSource);
             var element = document.getElementById('mapscript'); 
@@ -141,16 +123,15 @@
 		<div class="container map-container">
             <iframe id='mapscript' width='100%' frameBorder='0' style='height: 70vh; margin: 25px 0;' src='https://maps.darksky.net/@temperature,39.000,-95.000,4?embed=true&timeControl=true&fieldControl=true&defaultField=temperature&defaultUnits=_f'></iframe>
 			<ul class="tablist">
-               
-				<li class="tab-container">
-					<span class="tab"><i id="therm-icon" class="wi wi-thermometer"></i></span>
-					<div class="tabcontent">
-						<h5>Temperature Data</h5>
-						<p id="temp">40&deg;F</p>
-                        <p id="humidity">50% Hum.</p>
-						<p id="apparentTemp">Feels like 40&deg;F</p>
-					</div>
-				</li>
+                    <li class="tab-container">
+                            <span class="tab"><i id="therm-icon" class="wi wi-thermometer"></i></span>
+                            <div class="tabcontent">
+                                <h5>Temperature Data</h5>
+                                <p id="temp">40&deg;F</p>
+                                <p id="humidity">50% Hum.</p>
+                                <p id="apparentTemp">Feels like 40&deg;F</p>
+                            </div>
+                        </li>
 				<li class="tab-container">
 					<span class="tab"><i id="precip-icon" class="wi wi-rain"></i></span>
 					<div class="tabcontent">

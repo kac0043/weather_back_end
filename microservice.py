@@ -7,6 +7,7 @@ from cloudant import Cloudant
 import cf_deployment_tracker
 import atexit
 from cloudant.result import Result, ResultByKey
+import math
 
 # Emit Bluemix deployment event
 cf_deployment_tracker.track()
@@ -99,7 +100,6 @@ def queryDarkSkyTimeMachine(latLongString, time):
         response = urlopen(request)
         data = json.loads(response.read())
         currently = data['currently']
-        #currently['minutely'] = data['minutely']['summary']
         hourly = data['hourly']
         daily = data['daily']
 
@@ -137,10 +137,22 @@ def queryGoogleGeocode(address):
     except:
         return 'error: url wont open'
     try:
-        latlong = str(data['results'][0]['geometry']['location']['lat'])+','+str(data['results'][0]['geometry']['location']['lng'])
+        lat = adjustLat(float(data['results'][0]['geometry']['location']['lat']))
+        lng = adjustLong(float(data['results'][0]['geometry']['location']['lng']), lat)
+        latlong = str(lat)+','+str(lng)
         return latlong
     except: 
         return 'error: location does not exist'
+
+def adjustLat(lat):
+    return float(round(lat*10))/10.0
+
+def adjustLong(lng, lat):
+    radius = 24900*math.pi*math.sin(math.radians(90-lat))
+    numPts = round(2*math.pi*radius/10)
+    percentCirc = round((math.radians(lng)/(2*math.pi))*numPts)
+    adjustedLong = math.degrees((percentCirc/numPts)*2*math.pi)
+    return adjustedLong
 
 @atexit.register
 def shutdown():
