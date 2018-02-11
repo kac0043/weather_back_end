@@ -57,7 +57,7 @@ def getCurrentData():
     if (location.startswith('error')):
         return location
 
-    date = request.json['datetime'] 
+    date = str(request.json['datetime'])
         
     jsonResponse = queryDarkSkyTimeMachine(location, date)
 
@@ -67,6 +67,7 @@ def getCurrentData():
 
     timeMap = {currently['time'] : currently} 
 
+    print(json.dumps(currently))
     return json.dumps(currently)
 
 def getLocation(jsonRequest):

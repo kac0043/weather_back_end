@@ -39,40 +39,29 @@
     <script>
     	//Submit data when enter key is pressed
         $('#submit').click(function() {
-						console.log("I DID IT");
+			console.log("I DID IT");
             var name = $('#location').val();
             var date = $('#date').val();
-						var time = $('#time').val();
+			var time = $('#time').val();
             if (name.length > 0) { //catch Enter key
                 //POST request to API to create a new visitor entry in the database
-                if (date.length === 0){
-									date = new Date();
-								}
-								if (time.length === 0) {
-									time = new Time();
-								}
-								var datetime = date.getTime() / 1000 + time.getHours() * 3600 + time.getMinutes() * 60 + time.getSeconds();
-                    $.ajax({
-				     method: "POST",
+                if (date == null || date.length == 0){
+				    date = new Date();
+				}
+			    if (time == null || time.length == 0) {
+					time = new Date();
+			    }
+                var datetime = date.getTime() / 1000 + time.getHours() * 3600 + time.getMinutes() * 60 + time.getSeconds();
+                console.log(datetime)
+                $.ajax({
+				    method: "POST",
 				    url: "./api",
 				    contentType: "application/json",
 				    data: JSON.stringify({name: name, datetime: datetime})
 				    })
                     .done(function(json) {
                         render(json);
-                    });
-                
-                /*else {
-                    $.ajax({
-				     method: "POST",
-				    url: "./api",
-				    contentType: "application/json",
-				    data: JSON.stringify({name: name})
-				    })
-                    .done(function(json) {
-                        render(json);
-                    });
-                }*/
+                });
             }
         });
         
