@@ -5,27 +5,47 @@
 	padding: 0px;
 }
 
+input {
+	border-radius: 4px;
+}
+
 .tablist {
 	position: absolute;
 	top: 110px;
-	left: 0px;
+	left: 5px;
 	list-style: none;
+	background-color: rgba(130, 130, 130, 0.5);
+	border: 3px solid white;
+	border-radius: 10px;
+	padding: 10px;
 }
 
 .tab {
+	position: relative;
 	font-size: 2em;
+	margin: 4px;
+	
 }
 
 .tabcontent {
 	display: none;
 	position: absolute;
-	width: 150px;
-	top: 0px;
-	left: 100px;
+	min-width: 150px;
+	max-width: 200px;
+	top: -10px;
+	left: 80px;
+	margin: 0px;
+	padding: 3px;
 	font-size: 1.5em;
 	background-color: rgba(130, 130, 130, 0.5);
 	border: 3px solid white;
 	border-radius: 10px;
+	text-align: left;
+}
+
+.tabcontent h5 {
+	margin: 3px;
+	text-align: center;
 }
 
 .tab .active {
