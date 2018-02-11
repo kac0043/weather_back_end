@@ -6,6 +6,7 @@ from flask import Flask, jsonify, request, render_template
 from cloudant import Cloudant
 import cf_deployment_tracker
 import atexit
+from cloudant.result import Result, ResultByKey
 
 # Emit Bluemix deployment event
 cf_deployment_tracker.track()
@@ -15,7 +16,7 @@ cf_deployment_tracker.track()
 
 app = Flask(__name__)
 
-db_name = 'mydb'
+db_name = 'cache'
 client = None
 db = None
 
@@ -29,6 +30,8 @@ if 'VCAP_SERVICES' in os.environ:
         url = 'https://' + creds['host']
         client = Cloudant(user, password, url=url, connect=True)
         db = client.create_database(db_name, throw_on_exists=False)
+        if db.exists():
+            print "'{0}' successfully created.\n".format(db_name)
 elif os.path.isfile('vcap-local.json'):
     with open('vcap-local.json') as f:
         vcap = json.load(f)
@@ -57,20 +60,30 @@ def getCurrentData():
     if (location.startswith('error')):
         return location
 
-    date = str(int(request.json['datetime']))
+    date = str(int(int(int(request.json['datetime'])/60000)*60))
 
-    if client:
-        doc = list(map(lambda doc: doc[location], db))
+    docId = location+date 
+
+    result_collection = list(Result(db.all_docs))
+
+    for x in range(0, len(result_collection)-1):
+        if (docId == result_collection[x]['id']):
+            print('cached')
+            document = db[docId]
+            return json.loads(document['doc'])
         
     locationMap = queryDarkSkyTimeMachine(location, date)
 
     if (str(locationMap).startswith('error')):
         return locationMap
 
+    document = {} 
     if client:
-        db.create_document(locationMap)
+        document['doc'] = json.dumps(locationMap)
+        document['_id'] = docId
+        db.create_document(document)
     
-    return json.dumps(locationMap[location+date])
+    return json.dumps(locationMap[docId])
 
 
 def getLocation(jsonRequest):

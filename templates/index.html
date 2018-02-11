@@ -25,23 +25,23 @@
 					<input type="submit" id="submit" name="submit" value="Submit" />
 				</div>
     </div>
+    
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="../static/antixss.js" type="text/javascript"></script>
+    <script src="index.js" type="text/javascript"></script>
 
     <script>
     	//Submit data when enter key is pressed
         $('#submit').click(function() {
+            console.log($('#map_hour').val());
 			console.log("I DID IT");
-						var datetime = new Date();
-						console.log(datetime);
+			var datetime = new Date();
             var name = $('#location').val();
             var date = $('#dateInput').val();
-						console.log(date);
-						var time = $('#timeInput').val();
-						console.log(time);
+			var time = $('#timeInput').val();
             if (name.length > 0) { //catch Enter key
                 //POST request to API to create a new visitor entry in the database
                 if (date != null && date.trim().length > 0){
@@ -80,15 +80,11 @@
             if (precip == 'undefined') precip = 'precipitation'; 
             $('#precip').html(parseFloat(AntiXSS.sanitizeInput(data.precipProbability)) * 100 + '% Chance of ' + precip);
 			$('#apparentTemp').html('Feels like ' + AntiXSS.sanitizeInput(data.apparentTemperature) + '&deg;F');
-            $('#locationInput').hide();
-            $('#dateInput').hide();
-            $('#dateLabel').hide();
-            $('#locLabel').hide();
         }
     </script>
 		<div class="container map-container">
-			<script src='https://darksky.net/map-embed/@temperature,39.000,-95.000,4.js?embed=true&timeControl=false&fieldControl=false&defaultField=temperature&defaultUnits=_c'></script>
-			<p id="temp">40&deg;F</p>
+            <iframe width='100%' frameBorder='0' style='height: 70vh; margin: 25px 0;' src='https://maps.darksky.net/@temperature,39.000,-95.000,4?embed=true&timeControl=true&fieldControl=true&defaultField=temperature&defaultUnits=_f'></iframe>
+            <p id="temp">40&deg;F</p>
             <p id="humidity">50% Hum.</p>
             <p id="precip">22% Chance of Rain</p>
 			<p id="apparentTemp">Feels like 40&deg;F</p>
