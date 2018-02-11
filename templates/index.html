@@ -93,7 +93,7 @@
             $('#apparentTemp').html('Feels like ' + AntiXSS.sanitizeInput(data.apparentTemperature) + '&deg;F');
             $('#windSpeed').html(parseFloat(AntiXSS.sanitizeInput(data.windSpeed)) + 'MPH');
             $('#windBearing').html(parseFloat(AntiXSS.sanitizeInput(data.windBearing)) + '&deg; From North');
-            $('#summary').html(parseFloat(AntiXSS.sanitizeInput(data.summary)));
+            $('#summary').html(parseFloat(AntiXSS.sanitizeInput(data.summary)) + " and the perfect time for some of Momma Brenda's Jazzy Pineapple Pie!");
             $('#cloudCover').html(parseFloat(AntiXSS.sanitizeInput(data.cloudCover)) * 100 + '% Cloud Cover');
             $('#visibility').html(parseFloat(AntiXSS.sanitizeInput(data.visibility)) + ' Miles of Visibility');
             $('#minutely').html(parseFloat(AntiXSS.sanitizeInput(data.minutely)));
@@ -124,15 +124,22 @@
 		<div class="container map-container">
             <iframe id='mapscript' width='100%' frameBorder='0' style='height: 70vh; margin: 25px 0;' src='https://maps.darksky.net/@temperature,39.000,-95.000,4?embed=false&timeControl=true&fieldControl=true&defaultField=temperature&defaultUnits=_f'></iframe>
 			<ul class="tablist">
-                    <li class="tab-container">
-                            <span class="tab"><i id="therm-icon" class="wi wi-thermometer"></i></span>
-                            <div class="tabcontent">
-                                <h5>Temperature Data</h5>
-                                <p id="temp">40&deg;F</p>
-                                <p id="humidity">50% Hum.</p>
-                                <p id="apparentTemp">Feels like 40&deg;F</p>
-                            </div>
-                        </li>
+				<li class="tab-container">
+					<span class="tab"><i id="summary-icon" class="wi wi-stars"></i></span>
+					<div class="tabcontent">
+						<h5>Summary</h5>
+						<p summary="temp">Sunny and the perfect time for some of Momma Brenda's Jazzy Pineapple Pie!</p>
+					</div>
+				</li>
+				<li class="tab-container">
+						<span class="tab"><i id="therm-icon" class="wi wi-thermometer"></i></span>
+						<div class="tabcontent">
+								<h5>Temperature Data</h5>
+								<p id="temp">40&deg;F</p>
+								<p id="humidity">50% Hum.</p>
+								<p id="apparentTemp">Feels like 40&deg;F</p>
+						</div>
+				</li>
 				<li class="tab-container">
 					<span class="tab"><i id="precip-icon" class="wi wi-rain"></i></span>
 					<div class="tabcontent">
