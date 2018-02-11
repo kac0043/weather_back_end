@@ -11,7 +11,7 @@ input {
 
 .tablist {
 	position: absolute;
-	top: 110px;
+	top: 50vh;
 	left: 5px;
 	list-style: none;
 	background-color: rgba(130, 130, 130, 0.5);
@@ -23,20 +23,20 @@ input {
 .tab {
 	position: relative;
 	font-size: 2em;
-	margin: 4px;
+	margin: 8px;
 	
 }
 
 .tabcontent {
 	display: none;
 	position: absolute;
-	min-width: 150px;
-	max-width: 200px;
-	top: -10px;
+	min-width: 200px;
+	max-width: 250px;
+	bottom: -12px;
 	left: 80px;
-	margin: 0px;
-	padding: 3px;
-	font-size: 1.5em;
+	margin: 4px;
+	padding: 10px;
+	font-size: 1.25em;
 	background-color: rgba(130, 130, 130, 0.5);
 	border: 3px solid white;
 	border-radius: 10px;
@@ -44,7 +44,7 @@ input {
 }
 
 .tabcontent h5 {
-	margin: 3px;
+	margin: 8px;
 	text-align: center;
 }
 
