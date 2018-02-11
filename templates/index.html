@@ -7,17 +7,8 @@
     <div class="container">
         <label id=locLabel>Enter Location</label>
         <div id="locationInput" class="input-group-lg center-block helloInput">
-            <input id="location" type="text" placeholder="Enter Zipcode or City and State" value="" />
+            <input id="location" type="text" placeholder="Enter Zipcode or City and State" value="36832" />
         </div>
-
-        <!--<label id=dateLabel>Enter Date (Optional)</label>
-        <div id="dateInput" class="input-group-lg center-block helloInput">
-            <input id="date" type="text" placeholder="YYYY-MM-DD" value="" />
-        </div>
-				<div id="submitInput" class="input-group-lg center-block">
-					<input type="submit" id="submit" name="submit" value="Submit" />
-				</div>
-        <p id="response" class="lead text-center"></p>-->
 				<label id="dateLabel">Enter Date (Optional)</label>
 				<div id="dateContainer" class="input-group-lg center-block">
 					<input type="date" id="dateInput" />
@@ -52,7 +43,6 @@
 					time = new Date();
 			    }
                 var datetime = date.getTime() / 1000 + time.getHours() * 3600 + time.getMinutes() * 60 + time.getSeconds();
-                console.log(datetime)
                 $.ajax({
 				    method: "POST",
 				    url: "./api",
@@ -93,8 +83,6 @@
 			<p id="visibility">50% Visibility</p>
 			<p id="time">3:00 PM</p>
 			<p id="summary">Cloudy</p>
-			
-			
 		</div>
 </body>
 

@@ -57,18 +57,21 @@ def getCurrentData():
     if (location.startswith('error')):
         return location
 
-    date = str(request.json['datetime'])
+    date = str(int(request.json['datetime']))
+
+    if client:
+        doc = list(map(lambda doc: doc[location], db))
         
-    jsonResponse = queryDarkSkyTimeMachine(location, date)
+    locationMap = queryDarkSkyTimeMachine(location, date)
 
-    data = json.loads(jsonResponse) 
+    if (str(locationMap).startswith('error')):
+        return locationMap
 
-    currently = data['currently']
+    if client:
+        db.create_document(locationMap)
+    
+    return json.dumps(locationMap[location+date])
 
-    timeMap = {currently['time'] : currently} 
-
-    print(json.dumps(currently))
-    return json.dumps(currently)
 
 def getLocation(jsonRequest):
     if ('name' in request.json):
@@ -76,20 +79,28 @@ def getLocation(jsonRequest):
         return location
     return 'error: No Address Given'
 
-def queryDarkSkyForecast(latLongString):
-    request = 'https://api.darksky.net/forecast/4a21043802f4364273e7fe25ba29c92b/'+latLongString+'?units=auto'
-    try:
-	    response = urlopen(request)
-	    return response.read()
-    except:
-        return 'error'
-
 def queryDarkSkyTimeMachine(latLongString, time):
     request = 'https://api.darksky.net/forecast/4a21043802f4364273e7fe25ba29c92b/'+latLongString+','+time
-    try:
-	    response = urlopen(request)
-	    return response.read()
-    except:
+    try: 
+        locTimeMap = {}
+        response = urlopen(request)
+        data = json.loads(response.read())
+        currently = data['currently']
+        #currently['minutely'] = data['minutely']['summary']
+        hourly = data['hourly']
+        daily = data['daily']
+
+        for i in range(0, len(daily['data'])-1):
+            locTimeMap[latLongString + str(daily['data'][i]['time'])] = daily['data'][i]
+        
+        for i in range(0, len(hourly['data'])-1):
+            locTimeMap[latLongString + str(hourly['data'][i]['time'])] = hourly['data'][i]
+        
+        locTimeMap[latLongString + time] = currently
+
+        return locTimeMap
+    except Exception as e:
+        print(e) 
         return 'error'
 
 def queryGoogleGeocode(address):
